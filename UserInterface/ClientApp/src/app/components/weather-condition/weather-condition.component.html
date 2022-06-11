@@ -1,0 +1,122 @@
+<div class="container">
+    <br>
+    <h2>Weather Condition</h2>
+    <hr>
+    <br>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Country Name</label>
+        </div>
+        <div class="col-md-6">
+
+            <select name="Country" [(ngModel)]="countrySelect" (ngModelChange)="BindCity($event)" class="form-control">
+                <option value="undefined">Select Country Name</option>
+                <option *ngFor="let country of countriesCitiesService.listCountry" [ngValue]="country" >
+                    {{country.countryName}}
+                </option>
+            </select>
+
+        </div>
+    </div>
+  
+    <div class="row">
+        <div class="col-md-2">
+            <label>City Name</label>
+        </div>
+        <div class="col-md-6">
+            <select name="City" [(ngModel)]="citySelect" (ngModelChange)="BindWeatherCondition($event)" class="form-control">
+                <option value="undefined">Select City Name</option>
+                <option *ngFor="let city of countriesCitiesService.listCity" [ngValue]="city">
+                    {{city.cityName}}
+                </option>
+            </select>
+        </div>
+    </div>
+</div>  
+
+<div class="container" *ngIf="weatherConditionService.weatherCondition; else no_data">
+    <table>
+        <tr>
+            <td>
+                Location:
+            </td>
+            <td>
+                {{weatherConditionService.weatherCondition.coord.lat}}, {{weatherConditionService.weatherCondition.coord.lon}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Local time:
+            </td>
+            <td>
+                <!-- change time zone to UTC so angular don't use the user's machine's time zone) -->
+                {{weatherConditionService.weatherCondition.time | date:'short' : '+0000'}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Wind:
+            </td>
+            <td>
+                {{weatherConditionService.weatherCondition.wind.speed}} miles/hour, {{weatherConditionService.weatherCondition.wind.deg}} degree
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Visibility:
+            </td>
+            <td>
+                {{weatherConditionService.weatherCondition.visibility}} meters
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Sky conditions:
+            </td>
+            <td>
+                {{weatherConditionService.weatherCondition.weather[0].description}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Temperature (Celcius):
+            </td>
+            <td>
+                {{weatherConditionService.weatherCondition.main.tempC}}C
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Temperature (Fahrenheit):
+            </td>
+            <td>
+                {{weatherConditionService.weatherCondition.main.temp}}F
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Dew Point:
+            </td>
+            <td>
+                {{weatherConditionService.weatherCondition.dewPoint}}C
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Relative Humidity:
+            </td>
+            <td>
+                {{weatherConditionService.weatherCondition.main.humidity}}%
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Pressure:
+            </td>
+            <td>
+                {{weatherConditionService.weatherCondition.main.pressure}}hPa
+            </td>
+        </tr>
+    </table>
+</div>
+<ng-template #no_data>No data to show</ng-template>
