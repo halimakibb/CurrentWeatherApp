@@ -56,13 +56,13 @@ namespace Services
                 catch (JsonSerializationException)
                 {
                     cityResponse.IsError = true;
-                    cityResponse.ErrorMessage = "Error when converting from City API data";
+                    cityResponse.ErrorMessage = "Error when converting from City API data. ";
                     return cityResponse;
                 }
                 catch (Exception ex)
                 {
                     cityResponse.IsError = true;
-                    cityResponse.ErrorMessage = "Error when processing City API";
+                    cityResponse.ErrorMessage = "Error when processing City API. ";
                     return cityResponse;
                 }
             }
@@ -94,13 +94,13 @@ namespace Services
                 catch (JsonSerializationException)
                 {
                     countriesResponse.IsError = true;
-                    countriesResponse.ErrorMessage = "Error when converting from Country API data";
+                    countriesResponse.ErrorMessage = "Error when converting from Country API data. ";
                     return countriesResponse;
                 }
                 catch (Exception ex)
                 {
                     countriesResponse.IsError = true;
-                    countriesResponse.ErrorMessage = "Error when processing Country API ";
+                    countriesResponse.ErrorMessage = "Error when processing Country API. ";
                     return countriesResponse;
                 }
             }

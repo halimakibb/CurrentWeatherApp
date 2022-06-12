@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Repository.Interfaces;
 using Services;
 using Services.Interfaces;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace XtramilesSolutionUnitTest
@@ -162,6 +163,27 @@ namespace XtramilesSolutionUnitTest
             Assert.AreEqual(false, actualIsError);
         }
 
+        [Test]
+        public void ExceptionFromAPI_ShouldReturnErrorMessage()
+        {
+            // Arrange
+            var weatherConditionResponse = new ResponseModel<WeatherConditionModel>()
+            {
+                IsError = true,
+                ErrorMessage = "Error when processing Weather API data. "
+            };
+            // any other exception beside HttpRequestException, as this particular exception is handled inside the repository layer.
+            _mockRepository.Setup(r => r.RetrieveWeatherFromAPI(It.IsAny<string>(), It.IsAny<string>())).
+              Throws(new System.Exception());
+            // Act
+            var actualData = _service.GetWeatherConditionByCity("London", "GB");
+
+            // Assert
+            
+            Assert.AreEqual(JsonConvert.SerializeObject(actualData.Result), JsonConvert.SerializeObject(weatherConditionResponse));
+
+
+        }
 
     }
 }

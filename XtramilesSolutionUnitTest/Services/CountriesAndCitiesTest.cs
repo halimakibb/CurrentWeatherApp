@@ -97,5 +97,28 @@ namespace XtramilesSolutionUnitTest.Services
             // Assert
             Assert.AreEqual(JsonConvert.SerializeObject(responseModel), JsonConvert.SerializeObject(actualData));
         }
+
+
+        [Test]
+        public void ExceptionFromAPI_ShouldReturnErrorMessage()
+        {
+            // Arrange
+            var cityModelResponse = new ResponseModel<CityModel>()
+            {
+                IsError = true,
+                ErrorMessage = "Error when processing City API. "
+            };
+            // any other exception beside HttpRequestException, as this particular exception is handled inside the repository layer.
+            _mockRepository.Setup(r => r.RetrieveCitiesFromAPI(It.IsAny<string>())).
+              Throws(new System.Exception());
+            // Act
+            var actualData = _service.GetCityByCountryCode("GB");
+
+            // Assert
+
+            Assert.AreEqual(JsonConvert.SerializeObject(actualData.Result), JsonConvert.SerializeObject(cityModelResponse));
+
+
+        }
     }
 }
